@@ -4,6 +4,9 @@ on:
   push:
     branches: [ "main" ]
 
+env:
+  INFRA_REPO_URL: https://github.com/Francisco-Paulino-Simple/ci-cd-infra.git
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -16,14 +19,20 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            # Navega para a pasta da infraestrutura
-            cd /home/deployer/ci-cd-infra
+            # Define o diretório de trabalho
+            INFRA_DIR="/home/deployer/ci-cd-infra"
 
-            # Puxa as últimas alterações do repositório de infra
-            git pull
-
-            # Executa o docker compose up. Ele irá aplicar quaisquer mudanças
-            # no docker-compose.yml (novos serviços, envs, portas, etc.)
+            # Verifica se o diretório existe. Se não, clona. Se sim, atualiza.
+            if [ -d "$INFRA_DIR" ]; then
+              cd "$INFRA_DIR"
+              git pull
+            else
+              git clone ${{ env.INFRA_REPO_URL }} "$INFRA_DIR"
+              cd "$INFRA_DIR"
+            fi
+            
+            # Executa o docker compose up para aplicar quaisquer mudanças
+            echo "Aplicando configurações de infraestrutura..."
             docker compose up -d
-
+            
             echo "Deploy de infraestrutura concluído."
