@@ -10,7 +10,7 @@ services:
     networks:
       - ci-cd-net
     environment:
-      - GREETING="Ola do Docker Compose!"
+      - GREETING=${GREETING}
 
   service-b:
     image: ghcr.io/francisco-paulino-simple/simple-service-b:latest
