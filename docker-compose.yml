@@ -13,7 +13,7 @@ services:
       - GREETING="Ola do Docker Compose!"
 
   service-b:
-    image: ghcr.io/francisco-Paulino-simple/simple-service-b:latest
+    image: ghcr.io/francisco-paulino-simple/simple-service-b:latest
     container_name: service-b-prod
     restart: always
     ports:
