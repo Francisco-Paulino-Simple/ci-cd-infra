@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 env:
-  INFRA_REPO_URL: https://github.com/Francisco-Paulino-Simple/ci-cd-infra.git
+  INFRA_REPO_URL: https://github.com/francisco-paulino-simple/ci-cd-infra.git
 
 jobs:
   deploy:
