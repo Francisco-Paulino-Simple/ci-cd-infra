@@ -1,0 +1,29 @@
+name: Deploy de Infraestrutura
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy de mudanças na Infra
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            # Navega para a pasta da infraestrutura
+            cd /home/deployer/ci-cd-infra
+
+            # Puxa as últimas alterações do repositório de infra
+            git pull
+
+            # Executa o docker compose up. Ele irá aplicar quaisquer mudanças
+            # no docker-compose.yml (novos serviços, envs, portas, etc.)
+            docker compose up -d
+
+            echo "Deploy de infraestrutura concluído."

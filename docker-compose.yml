@@ -1,0 +1,26 @@
+name: "ci-cd-simulation-v2"
+
+services:
+  service-a:
+    image: ghcr.io/Francisco-Paulino-Simple/simple-service-a:latest
+    container_name: service-a-prod
+    restart: always
+    ports:
+      - "9001:5000"
+    networks:
+      - ci-cd-net
+    environment:
+      - GREETING="Ola do Docker Compose!"
+
+  service-b:
+    image: ghcr.io/Francisco-Paulino-Simple/simple-service-b:latest
+    container_name: service-b-prod
+    restart: always
+    ports:
+      - "9002:5000"
+    networks:
+      - ci-cd-net
+
+networks:
+  ci-cd-net:
+    driver: bridge
